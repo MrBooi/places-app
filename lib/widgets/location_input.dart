@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
-class LocatioInput extends StatefulWidget {
-  LocatioInput({Key key}) : super(key: key);
+class LocationInput extends StatefulWidget {
+  LocationInput({Key key}) : super(key: key);
 
   @override
-  _LocatioInputState createState() => _LocatioInputState();
+  _LocationInputState createState() => _LocationInputState();
 }
 
-class _LocatioInputState extends State<LocatioInput> {
+class _LocationInputState extends State<LocationInput> {
   String _previewImageUrl;
+
+  void _getCurrentUserLocation() async {
+    final locData = await Location().getLocation();
+    print(locData);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -16,7 +23,8 @@ class _LocatioInputState extends State<LocatioInput> {
         Container(
           alignment: Alignment.center,
           height: 180,
-          
+          decoration:
+              BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
           width: double.infinity,
           child: _previewImageUrl == null
               ? Text(
@@ -30,6 +38,7 @@ class _LocatioInputState extends State<LocatioInput> {
                 ),
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             FlatButton.icon(
               icon: Icon(Icons.location_on),
@@ -37,7 +46,7 @@ class _LocatioInputState extends State<LocatioInput> {
                 'Current Location',
               ),
               textColor: Theme.of(context).primaryColor,
-              onPressed: () {},
+              onPressed: _getCurrentUserLocation,
             ),
             FlatButton.icon(
               icon: Icon(Icons.map),
